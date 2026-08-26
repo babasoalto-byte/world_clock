@@ -1,193 +1,173 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Hora Mundial</title>
+  <title></title>
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <!-- DM Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
 
-<style>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+    body {
+      margin: 0;
+      padding: 0;
+      background: #f7f7f7;
+      color: #000000;
+      font-family: "DM Sans", sans-serif;
+      font-size: 13px;
+      font-weight: 400;
+    }
 
-body {
-    font-family: 'DM Sans', sans-serif;
-    background: transparent;
-    padding: 8px;
-}
+    .world-clock {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 20px;
+    }
 
-.widget {
-    background: #ffffff;
-    border-radius: 12px;
-    padding: 16px;
-    max-width: 360px;
-}
+    .city {
+      flex: 1;
+      min-width: 0;
+    }
 
-.header {
-    margin-bottom: 10px;
-}
+    .city-name {
+      margin-bottom: 7px;
+      font-size: 13px;
+      line-height: 1.2;
+    }
 
-.date {
-    font-size: 12px;
-    font-weight: 400;
-    color: #888888;
-}
+    .time {
+      font-size: 13px;
+      line-height: 1.2;
+      font-weight: 500;
+      letter-spacing: 0;
+    }
 
-.city-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 7px 0;
-    border-bottom: 1px solid #eeeeee;
-}
+    .date {
+      margin-top: 4px;
+      font-size: 10px;
+      line-height: 1.2;
+      opacity: 0.6;
+    }
 
-.city-row:last-child {
-    border-bottom: none;
-}
-
-.city {
-    display: flex;
-    align-items: center;
-    gap: 7px;
-    color: #333333;
-    font-size: 12px;
-    font-weight: 400;
-}
-
-.flag {
-    font-size: 14px;
-}
-
-.time {
-    font-size: 14px;
-    font-weight: 600;
-    color: #111111;
-    min-width: 45px;
-    text-align: right;
-}
-
-</style>
+    @media (max-width: 600px) {
+      .world-clock {
+        flex-direction: column;
+        gap: 16px;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-<div class="widget">
+  <div class="world-clock">
 
-    <div class="header">
-        <div class="date" id="date"></div>
+    <div class="city">
+      <div class="city-name">Santiago</div>
+      <div class="time" id="santiago-time">--:--</div>
+      <div class="date" id="santiago-date">--</div>
     </div>
 
-    <div class="city-row">
-        <div class="city">
-            <span class="flag">🇨🇱</span>
-            Santiago
-        </div>
-        <div class="time" id="santiago"></div>
+    <div class="city">
+      <div class="city-name">Ciudad de México</div>
+      <div class="time" id="mexico-time">--:--</div>
+      <div class="date" id="mexico-date">--</div>
     </div>
 
-    <div class="city-row">
-        <div class="city">
-            <span class="flag">🇦🇷</span>
-            Buenos Aires
-        </div>
-        <div class="time" id="buenosaires"></div>
+    <div class="city">
+      <div class="city-name">Los Ángeles</div>
+      <div class="time" id="losangeles-time">--:--</div>
+      <div class="date" id="losangeles-date">--</div>
     </div>
 
-    <div class="city-row">
-        <div class="city">
-            <span class="flag">🇲🇽</span>
-            Ciudad de México
-        </div>
-        <div class="time" id="mexico"></div>
+    <div class="city">
+      <div class="city-name">Madrid</div>
+      <div class="time" id="madrid-time">--:--</div>
+      <div class="date" id="madrid-date">--</div>
     </div>
 
-    <div class="city-row">
-        <div class="city">
-            <span class="flag">🇺🇸</span>
-            Los Ángeles
-        </div>
-        <div class="time" id="losangeles"></div>
+    <div class="city">
+      <div class="city-name">Buenos Aires</div>
+      <div class="time" id="buenosaires-time">--:--</div>
+      <div class="date" id="buenosaires-date">--</div>
     </div>
 
-    <div class="city-row">
-        <div class="city">
-            <span class="flag">🇪🇸</span>
-            Madrid
-        </div>
-        <div class="time" id="madrid"></div>
-    </div>
+  </div>
 
-</div>
 
-<script>
+  <script>
 
-function updateClocks() {
+    const cities = [
+      {
+        id: "santiago",
+        timezone: "America/Santiago"
+      },
+      {
+        id: "mexico",
+        timezone: "America/Mexico_City"
+      },
+      {
+        id: "losangeles",
+        timezone: "America/Los_Angeles"
+      },
+      {
+        id: "madrid",
+        timezone: "Europe/Madrid"
+      },
+      {
+        id: "buenosaires",
+        timezone: "America/Argentina/Buenos_Aires"
+      }
+    ];
 
-    const now = new Date();
 
-    const timeOptions = {
-        hour: '2-digit',
-        minute: '2-digit',
-        hour12: false
-    };
+    function updateClocks() {
 
-    document.getElementById('santiago').textContent =
-        now.toLocaleTimeString('es-CL', {
-            ...timeOptions,
-            timeZone: 'America/Santiago'
-        });
+      cities.forEach(city => {
 
-    document.getElementById('buenosaires').textContent =
-        now.toLocaleTimeString('es-AR', {
-            ...timeOptions,
-            timeZone: 'America/Argentina/Buenos_Aires'
-        });
+        const now = new Date();
 
-    document.getElementById('mexico').textContent =
-        now.toLocaleTimeString('es-MX', {
-            ...timeOptions,
-            timeZone: 'America/Mexico_City'
-        });
+        // Hora
+        const time = new Intl.DateTimeFormat("es-CL", {
+          timeZone: city.timezone,
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: false
+        }).format(now);
 
-    document.getElementById('losangeles').textContent =
-        now.toLocaleTimeString('es-MX', {
-            ...timeOptions,
-            timeZone: 'America/Los_Angeles'
-        });
+        // Fecha
+        const date = new Intl.DateTimeFormat("es-CL", {
+          timeZone: city.timezone,
+          weekday: "short",
+          day: "2-digit",
+          month: "short"
+        }).format(now);
 
-    document.getElementById('madrid').textContent =
-        now.toLocaleTimeString('es-ES', {
-            ...timeOptions,
-            timeZone: 'Europe/Madrid'
-        });
+        document.getElementById(city.id + "-time").textContent = time;
+        document.getElementById(city.id + "-date").textContent = date;
 
-    const dateOptions = {
-        weekday: 'long',
-        day: 'numeric',
-        month: 'long',
-        timeZone: 'America/Santiago'
-    };
+      });
 
-    let date = now.toLocaleDateString('es-CL', dateOptions);
+    }
 
-    date = date.charAt(0).toUpperCase() + date.slice(1);
 
-    document.getElementById('date').textContent = date;
-}
+    // Actualizar inmediatamente
+    updateClocks();
 
-updateClocks();
+    // Actualizar cada segundo
+    setInterval(updateClocks, 1000);
 
-setInterval(updateClocks, 1000);
-
-</script>
+  </script>
 
 </body>
 </html>
