@@ -6,7 +6,6 @@
 
 <title>Hora Mundial</title>
 
-<!-- DM Sans -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
@@ -27,24 +26,26 @@ body {
 
 .widget {
     background: #ffffff;
-    border-radius: 10px;
-    padding: 14px 16px;
+    border-radius: 12px;
+    padding: 16px;
     max-width: 360px;
-    width: 100%;
+}
+
+.header {
+    margin-bottom: 10px;
 }
 
 .title {
-    font-size: 0px;
+    font-size: 12px;
     font-weight: 600;
-    margin-bottom: 2px;
     color: #222222;
+    margin-bottom: 2px;
 }
 
 .date {
-    font-size: 10px;
+    font-size: 11px;
     font-weight: 400;
-    color: #777777;
-    margin-bottom: 10px;
+    color: #888888;
 }
 
 .city-row {
@@ -64,20 +65,20 @@ body {
     align-items: center;
     gap: 7px;
     color: #333333;
-    font-size: 11px;
-    font-weight: 500;
+    font-size: 12px;
+    font-weight: 400;
+}
+
+.flag {
+    font-size: 14px;
 }
 
 .time {
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 600;
     color: #111111;
     min-width: 45px;
     text-align: right;
-}
-
-.flag {
-    font-size: 13px;
 }
 
 </style>
@@ -87,18 +88,16 @@ body {
 
 <div class="widget">
 
-    <div class="title">
-        HORA MUNDIAL
+    <div class="header">
+        <div class="title">HORA MUNDIAL</div>
+        <div class="date" id="date"></div>
     </div>
-
-    <div class="date" id="date"></div>
 
     <div class="city-row">
         <div class="city">
             <span class="flag">🇨🇱</span>
             Santiago
         </div>
-
         <div class="time" id="santiago"></div>
     </div>
 
@@ -107,7 +106,6 @@ body {
             <span class="flag">🇦🇷</span>
             Buenos Aires
         </div>
-
         <div class="time" id="buenosaires"></div>
     </div>
 
@@ -116,7 +114,6 @@ body {
             <span class="flag">🇲🇽</span>
             Ciudad de México
         </div>
-
         <div class="time" id="mexico"></div>
     </div>
 
@@ -125,7 +122,6 @@ body {
             <span class="flag">🇺🇸</span>
             Los Ángeles
         </div>
-
         <div class="time" id="losangeles"></div>
     </div>
 
@@ -134,43 +130,12 @@ body {
             <span class="flag">🇪🇸</span>
             Madrid
         </div>
-
         <div class="time" id="madrid"></div>
     </div>
 
 </div>
 
 <script>
-
-const cities = {
-
-    santiago: {
-        timezone: 'America/Santiago',
-        locale: 'es-CL'
-    },
-
-    buenosaires: {
-        timezone: 'America/Argentina/Buenos_Aires',
-        locale: 'es-AR'
-    },
-
-    mexico: {
-        timezone: 'America/Mexico_City',
-        locale: 'es-MX'
-    },
-
-    losangeles: {
-        timezone: 'America/Los_Angeles',
-        locale: 'es-US'
-    },
-
-    madrid: {
-        timezone: 'Europe/Madrid',
-        locale: 'es-ES'
-    }
-
-};
-
 
 function updateClocks() {
 
@@ -182,81 +147,49 @@ function updateClocks() {
         hour12: false
     };
 
-
-    /* Santiago */
-
     document.getElementById('santiago').textContent =
-        now.toLocaleTimeString(
-            cities.santiago.locale,
-            {
-                ...timeOptions,
-                timeZone: cities.santiago.timezone
-            }
-        );
-
-
-    /* Buenos Aires */
+        now.toLocaleTimeString('es-CL', {
+            ...timeOptions,
+            timeZone: 'America/Santiago'
+        });
 
     document.getElementById('buenosaires').textContent =
-        now.toLocaleTimeString(
-            cities.buenosaires.locale,
-            {
-                ...timeOptions,
-                timeZone: cities.buenosaires.timezone
-            }
-        );
-
-
-    /* Ciudad de México */
+        now.toLocaleTimeString('es-AR', {
+            ...timeOptions,
+            timeZone: 'America/Argentina/Buenos_Aires'
+        });
 
     document.getElementById('mexico').textContent =
-        now.toLocaleTimeString(
-            cities.mexico.locale,
-            {
-                ...timeOptions,
-                timeZone: cities.mexico.timezone
-            }
-        );
-
-
-    /* Los Ángeles */
+        now.toLocaleTimeString('es-MX', {
+            ...timeOptions,
+            timeZone: 'America/Mexico_City'
+        });
 
     document.getElementById('losangeles').textContent =
-        now.toLocaleTimeString(
-            cities.losangeles.locale,
-            {
-                ...timeOptions,
-                timeZone: cities.losangeles.timezone
-            }
-        );
-
-
-    /* Madrid */
+        now.toLocaleTimeString('es-MX', {
+            ...timeOptions,
+            timeZone: 'America/Los_Angeles'
+        });
 
     document.getElementById('madrid').textContent =
-        now.toLocaleTimeString(
-            cities.madrid.locale,
-            {
-                ...timeOptions,
-                timeZone: cities.madrid.timezone
-            }
-        );
+        now.toLocaleTimeString('es-ES', {
+            ...timeOptions,
+            timeZone: 'Europe/Madrid'
+        });
 
+    const dateOptions = {
+        weekday: 'long',
+        day: 'numeric',
+        month: 'long',
+        timeZone: 'America/Santiago'
+    };
 
-    /* Fecha */
+    let date = now.toLocaleDateString('es-CL', dateOptions);
 
-    document.getElementById('date').textContent =
-        now.toLocaleDateString(
-            'es-CL',
-            {
-                weekday: 'long',
-                day: 'numeric',
-                month: 'long'
-            }
-        );
+    date = date.charAt(0).toUpperCase() + date.slice(1);
 
+    document.getElementById('date').textContent = date;
 }
-
 
 updateClocks();
 
