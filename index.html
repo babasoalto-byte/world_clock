@@ -18,88 +18,130 @@
 
     body {
       margin: 0;
-      padding: 0;
+      padding: 16px;
       background: #f7f7f7;
       color: #000000;
       font-family: "DM Sans", sans-serif;
       font-size: 13px;
-      font-weight: 400;
     }
 
-    .world-clock {
+    .clock-container {
       width: 100%;
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 20px;
+      max-width: 500px;
+      margin: 0 auto;
     }
 
     .city {
-      flex: 1;
-      min-width: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 9px 0;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    }
+
+    .city:last-child {
+      border-bottom: none;
     }
 
     .city-name {
-      margin-bottom: 7px;
-      font-size: 13px;
-      line-height: 1.2;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-weight: 400;
+    }
+
+    .flag {
+      font-size: 15px;
+      line-height: 1;
+    }
+
+    .time-container {
+      text-align: right;
+      min-width: 75px;
     }
 
     .time {
       font-size: 13px;
-      line-height: 1.2;
       font-weight: 500;
-      letter-spacing: 0;
+      line-height: 1.2;
     }
 
     .date {
-      margin-top: 4px;
+      margin-top: 2px;
       font-size: 10px;
       line-height: 1.2;
-      opacity: 0.6;
-    }
-
-    @media (max-width: 600px) {
-      .world-clock {
-        flex-direction: column;
-        gap: 16px;
-      }
+      opacity: 0.55;
+      text-transform: lowercase;
     }
   </style>
 </head>
 
 <body>
 
-  <div class="world-clock">
+  <div class="clock-container">
 
     <div class="city">
-      <div class="city-name">Santiago</div>
-      <div class="time" id="santiago-time">--:--</div>
-      <div class="date" id="santiago-date">--</div>
+      <div class="city-name">
+        <span class="flag">🇨🇱</span>
+        <span>Santiago</span>
+      </div>
+
+      <div class="time-container">
+        <div class="time" id="santiago-time">--:--</div>
+        <div class="date" id="santiago-date">---</div>
+      </div>
     </div>
 
-    <div class="city">
-      <div class="city-name">Ciudad de México</div>
-      <div class="time" id="mexico-time">--:--</div>
-      <div class="date" id="mexico-date">--</div>
-    </div>
 
     <div class="city">
-      <div class="city-name">Los Ángeles</div>
-      <div class="time" id="losangeles-time">--:--</div>
-      <div class="date" id="losangeles-date">--</div>
+      <div class="city-name">
+        <span class="flag">🇲🇽</span>
+        <span>Ciudad de México</span>
+      </div>
+
+      <div class="time-container">
+        <div class="time" id="mexico-time">--:--</div>
+        <div class="date" id="mexico-date">---</div>
+      </div>
     </div>
 
-    <div class="city">
-      <div class="city-name">Madrid</div>
-      <div class="time" id="madrid-time">--:--</div>
-      <div class="date" id="madrid-date">--</div>
-    </div>
 
     <div class="city">
-      <div class="city-name">Buenos Aires</div>
-      <div class="time" id="buenosaires-time">--:--</div>
-      <div class="date" id="buenosaires-date">--</div>
+      <div class="city-name">
+        <span class="flag">🇺🇸</span>
+        <span>Los Ángeles</span>
+      </div>
+
+      <div class="time-container">
+        <div class="time" id="losangeles-time">--:--</div>
+        <div class="date" id="losangeles-date">---</div>
+      </div>
+    </div>
+
+
+    <div class="city">
+      <div class="city-name">
+        <span class="flag">🇪🇸</span>
+        <span>Madrid</span>
+      </div>
+
+      <div class="time-container">
+        <div class="time" id="madrid-time">--:--</div>
+        <div class="date" id="madrid-date">---</div>
+      </div>
+    </div>
+
+
+    <div class="city">
+      <div class="city-name">
+        <span class="flag">🇦🇷</span>
+        <span>Buenos Aires</span>
+      </div>
+
+      <div class="time-container">
+        <div class="time" id="buenosaires-time">--:--</div>
+        <div class="date" id="buenosaires-date">---</div>
+      </div>
     </div>
 
   </div>
@@ -133,38 +175,39 @@
 
     function updateClocks() {
 
+      const now = new Date();
+
       cities.forEach(city => {
 
-        const now = new Date();
-
-        // Hora
-        const time = new Intl.DateTimeFormat("es-CL", {
+        const timeFormatter = new Intl.DateTimeFormat("es-CL", {
           timeZone: city.timezone,
           hour: "2-digit",
           minute: "2-digit",
           hour12: false
-        }).format(now);
+        });
 
-        // Fecha
-        const date = new Intl.DateTimeFormat("es-CL", {
+        const dateFormatter = new Intl.DateTimeFormat("es-CL", {
           timeZone: city.timezone,
           weekday: "short",
           day: "2-digit",
           month: "short"
-        }).format(now);
+        });
 
-        document.getElementById(city.id + "-time").textContent = time;
-        document.getElementById(city.id + "-date").textContent = date;
+        const time = timeFormatter.format(now);
+        const date = dateFormatter.format(now);
+
+        document.getElementById(`${city.id}-time`).textContent = time;
+
+        document.getElementById(`${city.id}-date`).textContent =
+          date.replace(/\./g, "");
 
       });
 
     }
 
 
-    // Actualizar inmediatamente
     updateClocks();
 
-    // Actualizar cada segundo
     setInterval(updateClocks, 1000);
 
   </script>
