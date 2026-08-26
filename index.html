@@ -1,0 +1,172 @@
+
+
+```html
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Hora Mundial</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    background: transparent;
+    padding: 12px;
+}
+
+.widget {
+    background: #ffffff;
+    border-radius: 14px;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    max-width: 420px;
+}
+
+.title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 16px;
+    color: #222;
+}
+
+.city-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #eeeeee;
+}
+
+.city-row:last-child {
+    border-bottom: none;
+}
+
+.city {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #333;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.time {
+    font-size: 16px;
+    font-weight: 600;
+    color: #111;
+    min-width: 70px;
+    text-align: right;
+}
+
+.flag {
+    font-size: 18px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="widget">
+    <div class="title">🌎 Hora Mundial</div>
+
+    <div class="city-row">
+        <div class="city">
+            <span class="flag">🇨🇱</span>
+            Santiago
+        </div>
+        <div class="time" id="santiago"></div>
+    </div>
+
+    <div class="city-row">
+        <div class="city">
+            <span class="flag">🇲🇽</span>
+            Ciudad de México
+        </div>
+        <div class="time" id="mexico"></div>
+    </div>
+
+    <div class="city-row">
+        <div class="city">
+            <span class="flag">🇺🇸</span>
+            Los Ángeles
+        </div>
+        <div class="time" id="la"></div>
+    </div>
+
+    <div class="city-row">
+        <div class="city">
+            <span class="flag">🇪🇸</span>
+            Madrid
+        </div>
+        <div class="time" id="madrid"></div>
+    </div>
+
+    <div class="city-row">
+        <div class="city">
+            <span class="flag">🇦🇷</span>
+            Buenos Aires
+        </div>
+        <div class="time" id="buenosaires"></div>
+    </div>
+
+</div>
+
+<script>
+function updateClocks() {
+
+    const options = {
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false
+    };
+
+    document.getElementById('santiago').textContent =
+        new Date().toLocaleTimeString('es-CL', {
+            ...options,
+            timeZone: 'America/Santiago'
+        });
+
+    document.getElementById('mexico').textContent =
+        new Date().toLocaleTimeString('es-MX', {
+            ...options,
+            timeZone: 'America/Mexico_City'
+        });
+
+    document.getElementById('la').textContent =
+        new Date().toLocaleTimeString('en-US', {
+            ...options,
+            timeZone: 'America/Los_Angeles'
+        });
+
+    document.getElementById('madrid').textContent =
+        new Date().toLocaleTimeString('es-ES', {
+            ...options,
+            timeZone: 'Europe/Madrid'
+        });
+
+    document.getElementById('buenosaires').textContent =
+        new Date().toLocaleTimeString('es-AR', {
+            ...options,
+            timeZone: 'America/Argentina/Buenos_Aires'
+        });
+}
+
+updateClocks();
+setInterval(updateClocks, 1000);
+</script>
+
+</body>
+</html>
+```
